@@ -4,16 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace WindowsOpenGL.Entity
+namespace WindowsOpenGL.Entity.Interfaces
 {
-
-    class Player : Ship
-    {     
-
-      
-
-      
+    interface IPhysicsBody
+    {
+      //  void SetVelocity(
     }
 }

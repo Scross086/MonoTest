@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+
 namespace WindowsOpenGL
 {
     /// <summary>
@@ -13,6 +14,7 @@ namespace WindowsOpenGL
         SpriteBatch spriteBatch;
 
         Entity.Player player;
+        Managers.BackgroundManager background;
 
         public Game1()
         {
@@ -20,6 +22,8 @@ namespace WindowsOpenGL
             Content.RootDirectory = "Content";
 
             player = new Entity.Player();
+        
+            background = new Managers.BackgroundManager();
         }
 
         /// <summary>
@@ -49,6 +53,14 @@ namespace WindowsOpenGL
             Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
 
             player.Initialize(Content.Load<Texture2D>("Graphics\\SpaceShip.png"), playerPosition);
+
+            Texture2D [] backgroundTexture = new Texture2D[1];
+            Vector2 [] backgroundPosition = new Vector2[1];
+
+            backgroundTexture[0] = Content.Load<Texture2D>("Graphics\\StarBackground.jpg");
+            backgroundPosition[0] = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y );
+            background.Initialise(backgroundTexture, backgroundPosition);
+
         }
 
         /// <summary>
@@ -72,6 +84,8 @@ namespace WindowsOpenGL
 
             // TODO: Add your update logic here
 
+            
+
             base.Update(gameTime);
         }
 
@@ -85,6 +99,9 @@ namespace WindowsOpenGL
 
             // Start drawing
             spriteBatch.Begin(SpriteSortMode.Deferred,BlendState.AlphaBlend);
+
+            //Draw the Background
+            background.Draw(spriteBatch);
 
             // Draw the Player
             player.Draw(spriteBatch);
