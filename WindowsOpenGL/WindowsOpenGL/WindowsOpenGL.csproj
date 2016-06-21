@@ -38,6 +38,8 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Entity\Background\Star.cs" />
+    <Compile Include="Entity\Background\StarField.cs" />
     <Compile Include="Managers\BackgroundManager.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Entity\Interfaces\ICollisionable.cs" />
@@ -70,7 +72,10 @@
     <Content Include="Content\Graphics\SpaceShip.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Graphics\StarBackground.jpg">
+    <Content Include="Content\Graphics\Star.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\StarBackground.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="OpenTK.dll.config">

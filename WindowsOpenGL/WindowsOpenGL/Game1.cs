@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using WindowsOpenGL.Entity.Background;
 
 
 namespace WindowsOpenGL
@@ -15,10 +16,13 @@ namespace WindowsOpenGL
 
         Entity.Player player;
         Managers.BackgroundManager background;
+        StarField starField;
+
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+           
             Content.RootDirectory = "Content";
 
             player = new Entity.Player();
@@ -57,9 +61,10 @@ namespace WindowsOpenGL
             Texture2D [] backgroundTexture = new Texture2D[1];
             Vector2 [] backgroundPosition = new Vector2[1];
 
-            backgroundTexture[0] = Content.Load<Texture2D>("Graphics\\StarBackground.jpg");
-            backgroundPosition[0] = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y );
+            backgroundTexture[0] = Content.Load<Texture2D>("Graphics\\StarBackground.png");
             background.Initialise(backgroundTexture, backgroundPosition);
+
+            starField = new StarField(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 300, new Vector2(1, 0), Content.Load<Texture2D>("Graphics\\Star.png"), new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
 
         }
 
@@ -84,7 +89,7 @@ namespace WindowsOpenGL
 
             // TODO: Add your update logic here
 
-            
+            starField.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -100,11 +105,13 @@ namespace WindowsOpenGL
             // Start drawing
             spriteBatch.Begin(SpriteSortMode.Deferred,BlendState.AlphaBlend);
 
+            starField.Draw(spriteBatch);
+
             //Draw the Background
             background.Draw(spriteBatch);
 
             // Draw the Player
-            player.Draw(spriteBatch);
+            player.Draw(spriteBatch);            
 
             // Stop drawing
             spriteBatch.End();

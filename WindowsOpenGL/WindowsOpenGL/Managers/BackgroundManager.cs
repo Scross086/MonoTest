@@ -42,7 +42,7 @@ namespace WindowsOpenGL.Managers
         {
             for (int i = 0; i < NumberOfLayers; i++)
             {
-                spriteBatch.Draw(_backgroundTextures[i], _backgroundTexturePosition[i], null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(_backgroundTextures[i], _backgroundTexturePosition[i], null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
             }
         }
 
