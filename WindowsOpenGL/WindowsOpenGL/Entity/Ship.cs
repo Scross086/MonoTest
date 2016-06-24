@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WindowsOpenGL.Core;
+using WindowsOpenGL.Core.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace WindowsOpenGL.Entity
 {
-    public class Ship
+    public class Ship : RenderElement
     {
         public Texture2D MainTexture;
 
@@ -17,6 +19,10 @@ namespace WindowsOpenGL.Entity
         public Boolean Active;
 
         public Int32 Health;
+
+        public Ship(Int32 zPosition, Boolean updateEnabled = true, Boolean renderEnabled = true) : base(zPosition, updateEnabled, renderEnabled)
+        {
+        }
 
         public Int32 Width => MainTexture.Width;
 
@@ -36,14 +42,14 @@ namespace WindowsOpenGL.Entity
             Health = 100;
         }
 
-        public void Update(int gameTime)
-        {
-            
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(MainTexture, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+          //  throw new NotImplementedException();
         }
     }
 }

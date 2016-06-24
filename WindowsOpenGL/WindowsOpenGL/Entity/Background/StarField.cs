@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WindowsOpenGL.Core;
+using WindowsOpenGL.Core.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace WindowsOpenGL.Entity.Background
 {
-    public class StarField
+    public class StarField : RenderElement
     {
         private readonly List<Star> _Stars = new List<Star>();
         private Int32 ScreenWidth { get; set; }
         private Int32 ScreenHeight { get; set; }
         private readonly Random _Rand = new Random();
 
-        public StarField(Int32 screenWidth, Int32 screenHeight, Int32 starCount, Vector2 starVelocity, Texture2D texture, Rectangle initialFrame )
+        public StarField(Int32 zPosition, Int32 screenWidth, Int32 screenHeight, Int32 starCount, Vector2 starVelocity, Texture2D texture, Rectangle initialFrame ) : base(zPosition)
         {
             ScreenWidth = screenWidth;
             ScreenHeight = screenHeight;
@@ -38,18 +40,19 @@ namespace WindowsOpenGL.Entity.Background
             }
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             foreach (Star star in _Stars)
             {
                 star.Update(gameTime);
                 if (star.Location.X < 0)
                 {
-                    star.Location = new Vector2(ScreenWidth+1, _Rand.Next(0, ScreenHeight));
+                    star.Location = new Vector2(ScreenWidth + 1, _Rand.Next(0, ScreenHeight));
                 }
             }
         }
-        public void Draw(SpriteBatch spriteBatch)
+
+        public override void Draw(SpriteBatch spriteBatch)
         {
             foreach (Star star in _Stars)
             {

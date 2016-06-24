@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using WindowsOpenGL.Core;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using WindowsOpenGL.Entity.Background;
@@ -18,6 +19,8 @@ namespace WindowsOpenGL
         Managers.BackgroundManager background;
         StarField starField;
 
+        private RenderEngine _RenderEngine;
+
 
         public Game1()
         {
@@ -30,10 +33,6 @@ namespace WindowsOpenGL
             _Graphics.ApplyChanges();
 
             Content.RootDirectory = "Content";
-
-            player = new Entity.Player();
-        
-            background = new Managers.BackgroundManager();
         }
 
         /// <summary>
@@ -44,7 +43,11 @@ namespace WindowsOpenGL
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            _RenderEngine = new RenderEngine();
+
+           
+
+            background = new Managers.BackgroundManager(0);
 
             base.Initialize();
         }
@@ -58,6 +61,9 @@ namespace WindowsOpenGL
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            player = new Entity.Player(2);
+         
+
             // Load the player resources
 
             Vector2 playerPosition = new Vector2(0, 0);//new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
@@ -69,8 +75,14 @@ namespace WindowsOpenGL
 
             backgroundTexture[0] = Content.Load<Texture2D>("Graphics\\StarBackground.png");
             background.Initialise(backgroundTexture, backgroundPosition);
-
-            starField = new StarField(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 100, new Vector2(-50, 0), Content.Load<Texture2D>("Graphics\\Star.png"), new Rectangle(0, 0, 4, 4));
+        
+            starField = new StarField(0,GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 100, new Vector2(-50, 0), Content.Load<Texture2D>("Graphics\\Star.png"), new Rectangle(0, 0, 4, 4));
+           
+            _RenderEngine.AddRenderElement(player);
+            _RenderEngine.AddRenderElement(background);
+            _RenderEngine.AddRenderElement(starField);
+            _RenderEngine.IsUpdateEnabled = true;
+            _RenderEngine.IsRenderEnabled = true;
 
         }
 
@@ -94,8 +106,9 @@ namespace WindowsOpenGL
                 Exit();
 
             // TODO: Add your update logic here
+            _RenderEngine.Update(gameTime);
 
-            starField.Update(gameTime);
+          //  starField.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -110,15 +123,17 @@ namespace WindowsOpenGL
 
             // Start drawing
             spriteBatch.Begin(SpriteSortMode.Deferred,BlendState.AlphaBlend);
-            
+
+            _RenderEngine.Draw(spriteBatch);
+
             //Draw the Background
-            background.Draw(spriteBatch);
+          //  background.Draw(spriteBatch);
 
             //Draw the Star Field
-            starField.Draw(spriteBatch);
+           // starField.Draw(spriteBatch);
 
             // Draw the Player
-            player.Draw(spriteBatch);
+          //  player.Draw(spriteBatch);
 
             
 

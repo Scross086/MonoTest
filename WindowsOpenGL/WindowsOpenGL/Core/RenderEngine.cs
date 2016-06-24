@@ -12,6 +12,7 @@ namespace WindowsOpenGL.Core
     public class RenderEngine :  IRenderElement
     {
         private List<IRenderElement> _RenderList;
+        private Boolean _IsRenderListDirty;
         public Boolean IsRenderEnabled { get; set; }
         public Boolean IsUpdateEnabled { get; set; }
         public Int32 ZPosition { get; set; }
@@ -19,7 +20,8 @@ namespace WindowsOpenGL.Core
         public RenderEngine(Boolean deferInitialisation = false)
         {
             ZPosition = 0;
-            if(!deferInitialisation) Initialise();
+            _IsRenderListDirty = false;
+            if (!deferInitialisation) Initialise();
         }
 
         public void Initialise()
@@ -29,7 +31,8 @@ namespace WindowsOpenGL.Core
 
         public void AddRenderElement(IRenderElement renderElement)
         {
-            _RenderList.Insert(renderElement.ZPosition, renderElement);
+            _RenderList.Add(renderElement);
+            _IsRenderListDirty = true;
         }
 
         public void RemoveRenderElement(IRenderElement renderElement)
@@ -40,16 +43,19 @@ namespace WindowsOpenGL.Core
         public void SortRenderList()
         {
             _RenderList.Sort((r1, r2) => r1.ZPosition.CompareTo(r2.ZPosition));
+            _IsRenderListDirty = false;
         }
 
         public void ClearRenderList()
         {
             _RenderList = new List<IRenderElement>();
+            _IsRenderListDirty = false;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             if (!IsRenderEnabled) return;
+            if(_IsRenderListDirty)SortRenderList();
             foreach (IRenderElement renderable in _RenderList)
             {
                 if (renderable.IsRenderEnabled) renderable.Draw(spriteBatch);

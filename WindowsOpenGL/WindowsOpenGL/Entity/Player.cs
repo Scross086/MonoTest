@@ -8,11 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace WindowsOpenGL.Entity
 {
+    public class Player : Ship
+    {
 
-    class Player : Ship
-    {     
-
-      
+        public Player(Int32 zPosition) : base(zPosition)
+        {
+         
+        }
 
       
     }
