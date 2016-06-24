@@ -8,25 +8,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace WindowsOpenGL.Entity
 {
-    class Ship
+    public class Ship
     {
         public Texture2D MainTexture;
 
         public Vector2 Position;
 
-        public bool Active;
+        public Boolean Active;
 
-        public int Health;
+        public Int32 Health;
 
-        public int Width
-        {
-            get { return MainTexture.Width; }
-        }
+        public Int32 Width => MainTexture.Width;
 
-        public int Height
-        {
-            get { return MainTexture.Height; }
-        }
+        public Int32 Height => MainTexture.Height;
 
         public void Initialize(Texture2D texture, Vector2 position)
         {
@@ -40,6 +34,11 @@ namespace WindowsOpenGL.Entity
 
             //Set the player health
             Health = 100;
+        }
+
+        public void Update(int gameTime)
+        {
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)

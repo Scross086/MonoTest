@@ -38,6 +38,8 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Core\Interfaces\IRenderElement.cs" />
+    <Compile Include="Core\RenderEngine.cs" />
     <Compile Include="Entity\Background\Star.cs" />
     <Compile Include="Entity\Background\StarField.cs" />
     <Compile Include="Managers\BackgroundManager.cs" />
@@ -73,6 +75,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Graphics\Star.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\Star1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Graphics\StarBackground.png">

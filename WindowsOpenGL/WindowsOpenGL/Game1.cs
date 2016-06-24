@@ -11,7 +11,7 @@ namespace WindowsOpenGL
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
+        GraphicsDeviceManager _Graphics;
         SpriteBatch spriteBatch;
 
         Entity.Player player;
@@ -21,8 +21,14 @@ namespace WindowsOpenGL
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
-           
+            _Graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = 1024,
+                PreferredBackBufferHeight = 768
+            };
+
+            _Graphics.ApplyChanges();
+
             Content.RootDirectory = "Content";
 
             player = new Entity.Player();
@@ -54,7 +60,7 @@ namespace WindowsOpenGL
 
             // Load the player resources
 
-            Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
+            Vector2 playerPosition = new Vector2(0, 0);//new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
 
             player.Initialize(Content.Load<Texture2D>("Graphics\\SpaceShip.png"), playerPosition);
 
@@ -64,7 +70,7 @@ namespace WindowsOpenGL
             backgroundTexture[0] = Content.Load<Texture2D>("Graphics\\StarBackground.png");
             background.Initialise(backgroundTexture, backgroundPosition);
 
-            starField = new StarField(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 300, new Vector2(1, 0), Content.Load<Texture2D>("Graphics\\Star.png"), new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            starField = new StarField(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 100, new Vector2(-50, 0), Content.Load<Texture2D>("Graphics\\Star.png"), new Rectangle(0, 0, 4, 4));
 
         }
 
@@ -104,14 +110,17 @@ namespace WindowsOpenGL
 
             // Start drawing
             spriteBatch.Begin(SpriteSortMode.Deferred,BlendState.AlphaBlend);
-
-            starField.Draw(spriteBatch);
-
+            
             //Draw the Background
             background.Draw(spriteBatch);
 
+            //Draw the Star Field
+            starField.Draw(spriteBatch);
+
             // Draw the Player
-            player.Draw(spriteBatch);            
+            player.Draw(spriteBatch);
+
+            
 
             // Stop drawing
             spriteBatch.End();
