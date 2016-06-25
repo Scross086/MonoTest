@@ -11,7 +11,7 @@ namespace WindowsOpenGL.Entity
     public class Player : Ship
     {
 
-        public Player(Int32 zPosition) : base(zPosition)
+        public Player(Int32 renderPriority) : base(renderPriority)
         {
          
         }

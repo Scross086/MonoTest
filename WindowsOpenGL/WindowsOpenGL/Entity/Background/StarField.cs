@@ -17,7 +17,7 @@ namespace WindowsOpenGL.Entity.Background
         private Int32 ScreenHeight { get; set; }
         private readonly Random _Rand = new Random();
 
-        public StarField(Int32 zPosition, Int32 screenWidth, Int32 screenHeight, Int32 starCount, Vector2 starVelocity, Texture2D texture, Rectangle initialFrame ) : base(zPosition)
+        public StarField(Int32 renderPriority, Int32 screenWidth, Int32 screenHeight, Int32 starCount, Vector2 starVelocity, Texture2D texture, Rectangle initialFrame ) : base(renderPriority)
         {
             ScreenWidth = screenWidth;
             ScreenHeight = screenHeight;

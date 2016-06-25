@@ -15,16 +15,16 @@ namespace WindowsOpenGL.Core
     {
         public Boolean IsRenderEnabled { get; set; }
         public Boolean IsUpdateEnabled { get; set; }
-        public Int32 ZPosition { get; set; }
+        public Int32 RenderPriority { get; set; }
 
         public abstract void Draw(SpriteBatch spriteBatch);
         public abstract void Update(GameTime gameTime);
 
-        protected RenderElement( Int32 zPosition, Boolean updateEnabled = true, Boolean renderEnabled = true )
+        protected RenderElement( Int32 renderPriority, Boolean updateEnabled = true, Boolean renderEnabled = true )
         {
             IsUpdateEnabled = updateEnabled;
             IsRenderEnabled = renderEnabled;
-            ZPosition = zPosition;
+            RenderPriority = renderPriority;
         }
 
      

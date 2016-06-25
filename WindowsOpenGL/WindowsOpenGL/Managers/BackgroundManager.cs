@@ -17,7 +17,7 @@ namespace WindowsOpenGL.Managers
         private Texture2D[] _backgroundTextures;
         private Vector2[] _backgroundTexturePosition;
 
-        public BackgroundManager(Int32 zPosition) : base(zPosition)
+        public BackgroundManager(Int32 renderPriority) : base(renderPriority)
         {
             IsUpdateEnabled = false;
         }

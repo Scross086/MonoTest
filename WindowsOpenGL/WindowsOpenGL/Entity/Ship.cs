@@ -20,7 +20,7 @@ namespace WindowsOpenGL.Entity
 
         public Int32 Health;
 
-        public Ship(Int32 zPosition, Boolean updateEnabled = true, Boolean renderEnabled = true) : base(zPosition, updateEnabled, renderEnabled)
+        public Ship(Int32 renderPriority, Boolean updateEnabled = true, Boolean renderEnabled = true) : base(renderPriority, updateEnabled, renderEnabled)
         {
         }
 

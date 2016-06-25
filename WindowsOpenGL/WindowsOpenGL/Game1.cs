@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using WindowsOpenGL.Entity.Background;
+using MonoGame.Extended.BitmapFonts;
 
 
 namespace WindowsOpenGL
@@ -19,7 +20,11 @@ namespace WindowsOpenGL
         Managers.BackgroundManager background;
         StarField starField;
 
-        private RenderEngine _RenderEngine;
+        public static RenderEngine GameRenderEngine;
+        public static RenderEngine GlobalRenderEngine;
+        public static RenderEngine UIRenderEngine;
+
+        private BitmapFont TestFont;
 
 
         public Game1()
@@ -43,11 +48,11 @@ namespace WindowsOpenGL
         /// </summary>
         protected override void Initialize()
         {
-            _RenderEngine = new RenderEngine();
+            GameRenderEngine = new RenderEngine(0);
+            UIRenderEngine = new RenderEngine(1);
+            GlobalRenderEngine = new RenderEngine();
 
-           
-
-            background = new Managers.BackgroundManager(0);
+            TestFont = Content.Load<BitmapFont>("Fonts\\ImpactBold");
 
             base.Initialize();
         }
@@ -61,29 +66,35 @@ namespace WindowsOpenGL
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            background = new Managers.BackgroundManager(0);
             player = new Entity.Player(2);
-         
 
             // Load the player resources
 
             Vector2 playerPosition = new Vector2(0, 0);//new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
 
-            player.Initialize(Content.Load<Texture2D>("Graphics\\SpaceShip.png"), playerPosition);
+            player.Initialize(Content.Load<Texture2D>("Graphics\\SpaceShip"), playerPosition);
 
             Texture2D [] backgroundTexture = new Texture2D[1];
             Vector2 [] backgroundPosition = new Vector2[1];
 
-            backgroundTexture[0] = Content.Load<Texture2D>("Graphics\\StarBackground.png");
+            backgroundTexture[0] = Content.Load<Texture2D>("Graphics\\StarBG");
             background.Initialise(backgroundTexture, backgroundPosition);
         
-            starField = new StarField(0,GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 100, new Vector2(-50, 0), Content.Load<Texture2D>("Graphics\\Star.png"), new Rectangle(0, 0, 4, 4));
+            starField = new StarField(1,GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 100, new Vector2(-50, 0), Content.Load<Texture2D>("Graphics\\Star"), new Rectangle(0, 0, 4, 4));
            
-            _RenderEngine.AddRenderElement(player);
-            _RenderEngine.AddRenderElement(background);
-            _RenderEngine.AddRenderElement(starField);
-            _RenderEngine.IsUpdateEnabled = true;
-            _RenderEngine.IsRenderEnabled = true;
+            //add game render elements
+            GameRenderEngine.AddRenderElement(player);
+            GameRenderEngine.AddRenderElement(background);
+            GameRenderEngine.AddRenderElement(starField);
 
+            //add the game and the ui to the global RenderEngine - this will allow for the UI to always be on top
+            GlobalRenderEngine.AddRenderElement(GameRenderEngine);
+            GlobalRenderEngine.AddRenderElement(UIRenderEngine);
+           
+            GameRenderEngine.IsUpdateEnabled = GameRenderEngine.IsRenderEnabled = true;
+            UIRenderEngine.IsUpdateEnabled = UIRenderEngine.IsRenderEnabled = true;
+            GlobalRenderEngine.IsUpdateEnabled = GlobalRenderEngine.IsRenderEnabled = true;
         }
 
         /// <summary>
@@ -106,7 +117,7 @@ namespace WindowsOpenGL
                 Exit();
 
             // TODO: Add your update logic here
-            _RenderEngine.Update(gameTime);
+            GlobalRenderEngine.Update(gameTime);
 
           //  starField.Update(gameTime);
 
@@ -119,12 +130,14 @@ namespace WindowsOpenGL
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // Start drawing
             spriteBatch.Begin(SpriteSortMode.Deferred,BlendState.AlphaBlend);
 
-            _RenderEngine.Draw(spriteBatch);
+            GlobalRenderEngine.Draw(spriteBatch);
+
+            spriteBatch.DrawString(TestFont, "Fuck Yeah It Works", new Vector2(100,100),Color.Red );
 
             //Draw the Background
           //  background.Draw(spriteBatch);

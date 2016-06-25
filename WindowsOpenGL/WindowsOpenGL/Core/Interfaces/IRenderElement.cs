@@ -17,7 +17,7 @@ namespace WindowsOpenGL.Core.Interfaces
 
         Boolean IsUpdateEnabled { get; set; }
 
-        Int32 ZPosition { get; set; }
+        Int32 RenderPriority { get; set; }
 
         void Draw(SpriteBatch spriteBatch);
 

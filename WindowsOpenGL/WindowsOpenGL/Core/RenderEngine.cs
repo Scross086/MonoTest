@@ -15,11 +15,11 @@ namespace WindowsOpenGL.Core
         private Boolean _IsRenderListDirty;
         public Boolean IsRenderEnabled { get; set; }
         public Boolean IsUpdateEnabled { get; set; }
-        public Int32 ZPosition { get; set; }
+        public Int32 RenderPriority { get; set; }
 
-        public RenderEngine(Boolean deferInitialisation = false)
+        public RenderEngine(Int32 globalRenderPriority = 0, Boolean deferInitialisation = false)
         {
-            ZPosition = 0;
+            RenderPriority = globalRenderPriority;
             _IsRenderListDirty = false;
             if (!deferInitialisation) Initialise();
         }
@@ -42,7 +42,7 @@ namespace WindowsOpenGL.Core
 
         public void SortRenderList()
         {
-            _RenderList.Sort((r1, r2) => r1.ZPosition.CompareTo(r2.ZPosition));
+            _RenderList.Sort((r1, r2) => r1.RenderPriority.CompareTo(r2.RenderPriority));
             _IsRenderListDirty = false;
         }
 
